@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Amsterdam",
+    "age": 6573
+  },
+  {
+    "name": "Groningen",
+    "age": 2389
+  },
+  {
+    "name": "Maastricht",
+    "age": 8123
+  },
+  {
+    "name": "Paris",
+    "age": 11746
+  },
+  {
+    "name": "Berlin",
+    "age": 2719
+  },
+  {
+    "name": "Rome",
+    "age": 4356
+  },
+  {
+    "name": "Barcelona",
+    "age": 1205
+  },
+  {
+    "name": "Vienna",
+    "age": 9823
+  },
+  {
+    "name": "Hamburg",
+    "age": 4546
+  },
+  {
+    "name": "Stockholm",
+    "age": 6721
+  },
+  {
+    "name": "Athens",
+    "age": 3784
+  },
+  {
+    "name": "Brussels",
+    "age": 8210
+  },
+  {
+    "name": "Copenhagen",
+    "age": 11987
+  },
+  {
+    "name": "Dublin",
+    "age": 8124
+  },
+  {
+    "name": "Edinburgh",
+    "age": 360
+  },
+  {
+    "name": "Helsinki",
+    "age": 5790
+  },
+  {
+    "name": "Lisbon",
+    "age": 11023
+  },
+  {
+    "name": "Madrid",
+    "age": 8991
+  },
+  {
+    "name": "Oslo",
+    "age": 4322
+  },
+  {
+    "name": "Zurich",
+    "age": 12039
+  }
+]
