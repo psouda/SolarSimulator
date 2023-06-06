@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Solar Network Simulator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        function setRemoveFormAction(button) {
+            var gridName = button.getAttribute('data-grid-name');
+            $('#removeGridForm input[name="gridName"]').val(gridName);
+            $('#removeGridModal').modal('show');
+        }
+
+        function createProducedOutputChart(gridNames, producedOutputs) {
+            var ctx = document.getElementById('producedOutputChart').getContext('2d');
+            var data = {
+                labels: gridNames,
+                datasets: [
+                    {
+                        label: 'Produced Output (since yesterday)',
+                        data: producedOutputs,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            };
+            var options = {
+                scales: {
+                    y: {
+                        ticks: {
+                            stepSize: 100
+                        }
+                    }
+                }
+            };
+            new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: options
+            });
+        }
+
+        window.onload = function () {
+            var gridNames = /*[[${gridNames}]]*/ [];
+            var producedOutputs = /*[[${gridsOutput}]]*/ [];
+            createProducedOutputChart(gridNames, producedOutputs);
+        }
+        /*]]>*/
+    </script>
+
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center mt-5 mb-5">Solar Simulator</h1>
+    <!-- Navigation menu -->
+    <ul class="nav nav-tabs justify-content-center mb-5">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#viewNetwork">View Network</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#addGrid">Add Grid</a>
+        </li>
+    </ul>
+
+    <!-- Tab content -->
+    <div class="tab-content">
+        <!-- View Network tab -->
+        <div class="tab-pane fade show active" id="viewNetwork">
+            <h2 class="text-center mb-4">Solar Grids</h2>
+            <table class="table table-striped">
+                <caption>Solar Grids</caption>
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th class="action-col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="grid : ${solarGrids}">
+                    <td th:text="${grid.name}"></td>
+                    <td th:text="${grid.age}"></td>
+                    <td class="action-col">
+                        <button type="button" class="btn btn-danger btn-sm" th:attr="data-grid-name=${grid.name}"
+                                onclick="setRemoveFormAction(this)">Remove
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <h2 class="text-center mb-4">Produced Output Chart</h2>
+            <canvas id="producedOutputChart"></canvas>
+        </div>
+
+        <!-- Add Grid tab -->
+        <div class="tab-pane fade" id="addGrid">
+            <h2 class="text-center mb-4">Add a new grid</h2>
+
+            <!-- Add Grid by JSON file -->
+            <form action="#" th:action="@{/add-grid-json}" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="jsonFile">Upload JSON file:</label>
+                    <input type="file" class="form-control-file" id="jsonFile" name="jsonFile" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Grids from JSON</button>
+            </form>
+
+            <hr class="my-5">
+
+            <!-- Add Grid by input fields -->
+            <form action="#" th:action="@{/add-grid}" method="post">
+                <div class="form-group">
+                    <label for="gridName">Grid Name:</label>
+                    <input type="text" class="form-control" id="gridName" name="gridName" required>
+                </div>
+                <div class="form-group">
+                    <label for="gridAge">Grid Age:</label>
+                    <input type="number" class="form-control" id="gridAge" name="gridAge" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Grid</button>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Remove Grid Modal -->
+<div class="modal fade" id="removeGridModal" tabindex="-1" role="dialog" aria-labelledby="removeGridModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="removeGridModalLabel">Remove Grid</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to remove this grid?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form action="#" th:action="@{/remove-grid}" method="post" id="removeGridForm">
+                    <input type="hidden" name="gridName">
+                    <button type="submit" class="btn btn-danger">Remove Grid</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

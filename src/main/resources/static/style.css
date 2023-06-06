@@ -1,0 +1,30 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 800px;
+}
+
+h1, h2 {
+    color: #4a4a4a;
+}
+
+.nav-tabs .nav-link {
+    font-size: 18px;
+    border: 1px solid #4a4a4a;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #4a4a4a;
+    color: #ffffff;
+}
+
+hr {
+    border-top: 1px solid #4a4a4a;
+    opacity: 0.2;
+}
+
+.action-col {
+    width: 10%;
+}
